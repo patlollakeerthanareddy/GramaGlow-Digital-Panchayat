@@ -1,0 +1,35 @@
+{
+  "name": "gramaglow-digital-panchayat",
+  "version": "4.0.0",
+  "description": "GramaGlow: 3-Tier Bilingual Digital Gram Panchayat Portal with SQLite WAL, Real-Time SSE, Predictive Budget Forecasting, Voice Dictation, Docker & CI/CD",
+  "main": "server/server.js",
+  "scripts": {
+    "start": "node server/server.js",
+    "dev": "node --watch server/server.js",
+    "test": "node --test tests/*.test.js"
+  },
+  "keywords": [
+    "gram-panchayat",
+    "e-governance",
+    "civic-tech",
+    "bilingual",
+    "express",
+    "sqlite",
+    "openapi",
+    "pwa",
+    "sse",
+    "docker"
+  ],
+  "author": "D Ankit Swamy, Kotha Vishnu Vardhan Reddy, P Keerthana",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {
+    "better-sqlite3": "^11.7.0",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.0",
+    "pino": "^9.5.0",
+    "swagger-ui-express": "^5.0.1"
+  }
+}

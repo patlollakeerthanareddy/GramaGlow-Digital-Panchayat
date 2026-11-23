@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GramaGlow — Pipri Gram Panchayat</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Mukta:wght@400;500;600;700&family=Noto+Sans+Devanagari:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#0066cc" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- Ambient Liquid Glass Background Orbs -->
+  <div class="ambient-bg" aria-hidden="true">
+    <div class="orb orb-sapphire"></div>
+    <div class="orb orb-emerald"></div>
+    <div class="orb orb-amber"></div>
+  </div>
+
+  <!-- Top Single-Row Glass Header -->
+  <header class="glass-header">
+    <div class="container header-inner">
+      <a href="#overview" class="brand" data-nav="overview">
+        <div class="brand-emblem" aria-hidden="true">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 21h18" />
+            <path d="M5 21V7l8-4v18" />
+            <path d="M19 21V11l-6-4" />
+            <path d="M9 9v.01" /><path d="M9 12v.01" /><path d="M9 15v.01" /><path d="M9 18v.01" />
+          </svg>
+        </div>
+        <div class="brand-text">
+          <span class="brand-title" data-i18n="brandTitle">GramaGlow</span>
+          <span class="brand-sub" data-i18n="brandSub">Pipri Gram Panchayat</span>
+        </div>
+      </a>
+
+      <!-- Desktop Navigation (Hidden on Mobile) -->
+      <nav class="desktop-nav" aria-label="Primary Navigation">
+        <button type="button" class="nav-pill active" data-tab="overview" data-i18n="navOverview">Overview</button>
+        <button type="button" class="nav-pill" data-tab="notices" data-i18n="navNotices">Notices</button>
+        <button type="button" class="nav-pill" data-tab="budget" data-i18n="navBudget">Budget</button>
+        <button type="button" class="nav-pill" data-tab="grievances" data-i18n="navGrievances">Grievances</button>
+        <button type="button" class="nav-pill" data-tab="assets" data-i18n="navAssets">Village Map</button>
+      </nav>
+
+      <!-- Header Right Controls: Role Switch + Language Toggle -->
+      <div class="header-actions">
+        <button type="button" id="roleToggleBtn" class="role-switch-btn" aria-label="Switch between Citizen View and Sarpanch Admin">
+          <span id="roleToggleLabel" data-i18n="roleAdmin">Sarpanch Admin</span>
+        </button>
+        <button type="button" id="langToggle" class="lang-btn" aria-label="Switch Language between English and Hindi">
+          <span class="lang-icon" aria-hidden="true">अ / A</span>
+          <span id="langLabel">हिंदी</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="container main-content">
+    <!-- SECTION 1: OVERVIEW -->
+    <section id="section-overview" class="view-section active" aria-labelledby="hero-heading">
+      <!-- Focal Hero Card -->
+      <div class="hero-glass">
+        <div class="hero-badge-row">
+          <span class="status-pill status-live">
+            <span class="pulse-dot" aria-hidden="true"></span>
+            <span data-i18n="deskStatus">Panchayat Office Open • 9:00 AM – 5:00 PM</span>
+          </span>
+          <span class="meta-chip" data-i18n="districtTag">Block Sadar • District Wardha</span>
+        </div>
+
+        <div class="hero-grid">
+          <div class="hero-copy">
+            <h1 id="hero-heading" class="hero-title" data-i18n="heroTitle">
+              Gram Sabha Meeting — Next Tuesday at 10:00 AM
+            </h1>
+            <p class="hero-desc" data-i18n="heroDesc">
+              Venue: Pipri Panchayat Bhavan Courtyard. Key agenda: Solar streetlight expansion in Wards 3 &amp; 7, drinking water pipeline audit, and Rabi crop subsidy verification.
+            </p>
+            <div class="hero-actions">
+              <button type="button" class="btn-primary" id="heroReportBtn">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M12 9v4" /><path d="M12 17h.01" />
+                  <path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" />
+                </svg>
+                <span data-i18n="heroPrimaryCta">Report a Problem</span>
+              </button>
+              <button type="button" class="btn-glass" data-jump="notices">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
+                  <path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
+                </svg>
+                <span data-i18n="heroSecondaryCta">Listen to Notices</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Village Key Metrics -->
+          <div class="kpi-panel" aria-label="Village Demographics and Governance Metrics">
+            <div class="kpi-item">
+              <span class="kpi-value" id="kpiPopVal">3,420</span>
+              <span class="kpi-label" data-i18n="kpiPop">Total Population</span>
+            </div>
+            <div class="kpi-item">
+              <span class="kpi-value" id="kpiWardsVal">8</span>
+              <span class="kpi-label" data-i18n="kpiWards">Electoral Wards</span>
+            </div>
+            <div class="kpi-item">
+              <span class="kpi-value" id="kpiFundsVal">₹18.5L</span>
+              <span class="kpi-label" data-i18n="kpiFunds">Sanctioned Funds</span>
+            </div>
+            <div class="kpi-item">
+              <span class="kpi-value" id="kpiResolvedVal">92%</span>
+              <span class="kpi-label" data-i18n="kpiResolved">Issues Resolved</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4 Large Icon Shortcuts -->
+      <div class="shortcuts-grid" role="navigation" aria-label="Quick Service Shortcuts">
+        <button type="button" class="shortcut-card" id="shortcutReportBtn">
+          <div class="shortcut-icon icon-amber" aria-hidden="true">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+              <polyline points="14 2 14 8 20 8" />
+              <line x1="12" y1="18" x2="12" y2="12" /><line x1="9" y1="15" x2="15" y2="15" />
+            </svg>
+          </div>
+          <span class="shortcut-title" data-i18n="scReport">Report Problem</span>
+          <span class="shortcut-sub" data-i18n="scReportSub">Lodge &amp; track token</span>
+        </button>
+
+        <button type="button" class="shortcut-card" data-jump="notices">
+          <div class="shortcut-icon icon-sapphire" aria-hidden="true">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
+              <path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
+            </svg>
+          </div>
+          <span class="shortcut-title" data-i18n="scNotices">Village Notices</span>
+          <span class="shortcut-sub" data-i18n="scNoticesSub">Audio &amp; circulars</span>
+        </button>
+
+        <button type="button" class="shortcut-card" data-jump="budget">
+          <div class="shortcut-icon icon-emerald" aria-hidden="true">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="12" y1="1" x2="12" y2="23" />
+              <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
+            </svg>
+          </div>
+          <span class="shortcut-title" data-i18n="scBudget">Public Budget</span>
+          <span class="shortcut-sub" data-i18n="scBudgetSub">Work vs spend audit</span>
+        </button>
+
+        <a href="tel:+919823045120" class="shortcut-card">
+          <div class="shortcut-icon icon-indigo" aria-hidden="true">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
+            </svg>
+          </div>
+          <span class="shortcut-title" data-i18n="scCall">Call Sarpanch</span>
+          <span class="shortcut-sub">+91 98230 45120</span>
+        </a>
+      </div>
+
+      <!-- Leadership & Collapsible 8-Ward Roster -->
+      <div class="leadership-glass">
+        <div class="leadership-main">
+          <div class="avatar-ring" aria-hidden="true">SD</div>
+          <div class="leadership-info">
+            <div class="leadership-top">
+              <h2 class="section-heading-sm" data-i18n="sarpanchName">Smt. Savitri Devi</h2>
+              <span class="role-badge" data-i18n="sarpanchRole">Elected Sarpanch</span>
+            </div>
+            <p class="leadership-meta" data-i18n="sarpanchBio">
+              Term: 2024 – 2029 • Office Hours: Mon–Sat (10:00 AM – 2:00 PM) at Panchayat Bhavan
+            </p>
+            <div class="contact-strip">
+              <span><strong data-i18n="secretaryLabel">Gram Sevak:</strong> <span data-i18n="secretaryName">Shri Rajeshwar Kulkarni</span> (+91 94221 78310)</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="ward-disclosure">
+          <button type="button" id="toggleWardsBtn" class="disclosure-btn" aria-expanded="false" aria-controls="wardRosterContainer">
+            <span data-i18n="toggleWardsLabel">View All 8 Ward Members &amp; Localities</span>
+            <svg class="chevron-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="6 9 12 15 18 9" />
+            </svg>
+          </button>
+          <div id="wardRosterContainer" class="ward-grid hidden"></div>
+        </div>
+      </div>
+
+      <!-- Gram Sabha Digital Agenda & Voting -->
+      <div class="agenda-glass">
+        <div class="agenda-header">
+          <h2 class="section-heading-sm" data-i18n="agendaTitle">Gram Sabha Digital Agenda &amp; Voting</h2>
+          <p class="section-subtitle" data-i18n="agendaSub">Suggest community priorities and vote before next Tuesday's Gram Sabha</p>
+        </div>
+        <form id="agendaForm" class="agenda-form" novalidate>
+          <input type="text" id="agendaTitleInput" class="glass-input" maxlength="140" required />
+          <input type="text" id="agendaProposerInput" class="glass-input" maxlength="60" required />
+          <select id="agendaWardSelect" class="glass-input" aria-label="Ward">
+            <option value="1">Ward 1</option><option value="2">Ward 2</option>
+            <option value="3">Ward 3</option><option value="4">Ward 4</option>
+            <option value="5">Ward 5</option><option value="6">Ward 6</option>
+            <option value="7">Ward 7</option><option value="8">Ward 8</option>
+          </select>
+          <button type="submit" class="btn-primary btn-sm" data-i18n="agendaSubmitBtn">Add Agenda</button>
+        </form>
+        <div id="agendaList" class="agenda-list"></div>
+      </div>
+    </section>
+
+    <!-- SECTION 2: OFFICIAL NOTICES -->
+    <section id="section-notices" class="view-section" aria-labelledby="notices-heading">
+      <div class="section-header">
+        <div>
+          <h2 id="notices-heading" class="section-title" data-i18n="noticesTitle">Official Village Notices</h2>
+          <p class="section-subtitle" data-i18n="noticesSub">Verified circulars, Gram Sabha schedules, and spoken Hindi audio broadcasts</p>
+        </div>
+        <div id="noticeFilters" class="filter-row" role="group" aria-label="Filter notices by category"></div>
+      </div>
+
+      <div id="audioReaderBox" class="audio-glass hidden" role="region" aria-live="polite">
+        <div class="audio-header">
+          <div class="audio-title-wrap">
+            <span class="audio-badge" data-i18n="audioBadge">Spoken Audio Broadcast</span>
+            <h3 id="audioNoticeTitle" class="audio-heading"></h3>
+          </div>
+          <button type="button" id="closeAudioBtn" class="icon-close-btn" aria-label="Close audio transcript">✕</button>
+        </div>
+        <p id="audioScriptText" class="audio-script"></p>
+      </div>
+
+      <div id="noticesList" class="cards-stack"></div>
+    </section>
+
+    <!-- SECTION 3: DEVELOPMENT BUDGET TRACKER -->
+    <section id="section-budget" class="view-section" aria-labelledby="budget-heading">
+      <div class="section-header">
+        <div>
+          <h2 id="budget-heading" class="section-title" data-i18n="budgetTitle">Development Work &amp; Budget Tracker</h2>
+          <p class="section-subtitle" data-i18n="budgetSub">Comparing physical work completion against funds utilized across Pipri</p>
+        </div>
+        <div class="export-row">
+          <a href="/api/export/budget.csv" class="btn-glass btn-sm" download data-i18n="exportBudgetCsv">Export Budget CSV</a>
+        </div>
+        <div class="legend-row">
+          <span class="legend-item"><i class="dot dot-emerald"></i> <span data-i18n="legendWork">Work Completed</span></span>
+          <span class="legend-item"><i class="dot dot-amber"></i> <span data-i18n="legendSpend">Funds Utilized</span></span>
+        </div>
+      </div>
+      <div id="budgetList" class="projects-grid"></div>
+    </section>
+
+    <!-- SECTION 4: CITIZEN GRIEVANCE PORTAL & STATUS BOARD -->
+    <section id="section-grievances" class="view-section" aria-labelledby="grievances-heading">
+      <div class="section-header">
+        <div>
+          <h2 id="grievances-heading" class="section-title" data-i18n="grievancesTitle">Public Grievance &amp; Ward Status Board</h2>
+          <p class="section-subtitle" data-i18n="grievancesSub">Lodge new complaints and track resolution sorted by 48-hour SLA priority</p>
+        </div>
+        <div class="export-row">
+          <a href="/api/export/grievances.csv" class="btn-glass btn-sm" download data-i18n="exportGrievancesCsv">Export Grievances CSV</a>
+          <button type="button" id="toggleGrievanceFormBtn" class="btn-primary" data-i18n="openFormBtn">+ Lodge New Complaint</button>
+        </div>
+      </div>
+
+      <!-- Interactive Citizen Grievance Submission Form -->
+      <div id="grievanceFormCard" class="form-glass hidden">
+        <div class="form-card-top">
+          <h3 class="section-heading-sm" data-i18n="formHeading">Lodge a Citizen Grievance</h3>
+          <button type="button" id="demoFillBtn" class="btn-glass btn-sm" data-i18n="formDemoFillBtn">Auto-Fill Broken Streetlamp Demo</button>
+        </div>
+
+        <form id="grievanceForm" class="grievance-form-grid" novalidate>
+          <div class="field-group">
+            <label for="gCategory" data-i18n="formCategoryLabel">Problem Category</label>
+            <select id="gCategory" class="glass-input" required></select>
+          </div>
+
+          <div class="field-group">
+            <label for="gWard" data-i18n="formWardLabel">Select Ward (1–8)</label>
+            <select id="gWard" class="glass-input" required></select>
+          </div>
+
+          <div class="field-group">
+            <label for="gCitizenName" data-i18n="formNameLabel">Your Full Name</label>
+            <input type="text" id="gCitizenName" class="glass-input" maxlength="80" required />
+          </div>
+
+          <div class="field-group">
+            <label for="gCitizenPhone" data-i18n="formPhoneLabel">Mobile Number (Optional, 10 digits)</label>
+            <input type="tel" id="gCitizenPhone" class="glass-input" maxlength="10" pattern="[6-9][0-9]{9}" />
+          </div>
+
+          <div class="field-group field-full">
+            <label for="gLandmark" data-i18n="formLandmarkLabel">Landmark / Street Location</label>
+            <input type="text" id="gLandmark" class="glass-input" maxlength="140" required />
+          </div>
+
+          <div class="field-group field-full">
+            <label for="gTitle" data-i18n="formTitleLabel">Short Problem Title</label>
+            <input type="text" id="gTitle" class="glass-input" maxlength="140" required />
+          </div>
+
+          <div class="field-group field-full">
+            <div class="label-action-row">
+              <label for="gDesc" data-i18n="formDescLabel">Describe the Problem</label>
+              <button type="button" id="voiceDictateBtn" class="btn-glass btn-sm" data-i18n="voiceDictateBtn">🎙 Speak Problem</button>
+            </div>
+            <textarea id="gDesc" class="glass-input" rows="3" maxlength="600" required></textarea>
+          </div>
+
+          <div class="field-group field-full">
+            <label for="gPhotoInput" data-i18n="formPhotoLabel">Attach Field Photo (Optional, Max 2 MB)</label>
+            <input type="file" id="gPhotoInput" class="glass-input" accept="image/*" capture="environment" />
+            <div id="gPhotoPreviewWrap" class="photo-preview-wrap hidden">
+              <img id="gPhotoPreviewImg" alt="Uploaded field evidence preview" />
+              <button type="button" id="clearPhotoBtn" class="icon-close-btn" aria-label="Remove photo">✕</button>
+            </div>
+          </div>
+
+          <div id="gFormError" class="form-error field-full hidden" role="alert"></div>
+
+          <div class="field-full">
+            <button type="submit" id="gSubmitBtn" class="btn-primary" data-i18n="formSubmitBtn">Submit Complaint &amp; Get Token</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="analytics-glass">
+        <h3 class="section-heading-sm" data-i18n="wardAnalyticsTitle">Ward-Wise Grievance Load</h3>
+        <div id="wardAnalyticsChart" class="ward-chart" aria-label="Ward grievance count bar chart"></div>
+      </div>
+      <div id="grievanceFilters" class="filter-row filter-spacer" role="group" aria-label="Filter grievances by status"></div>
+      <div id="grievancesList" class="cards-stack"></div>
+      <div id="grievancesEmpty" class="empty-state hidden">
+        <p data-i18n="emptyGrievances">No citizen complaints match the selected filter.</p>
+      </div>
+    </section>
+
+    <!-- SECTION 5: VILLAGE ASSETS GEO-DIRECTORY -->
+    <section id="section-assets" class="view-section" aria-labelledby="assets-heading">
+      <div class="section-header">
+        <div>
+          <h2 id="assets-heading" class="section-title" data-i18n="assetsTitle">Village Assets Geo-Directory</h2>
+          <p class="section-subtitle" data-i18n="assetsSub">Public infrastructure, water points, schools, and health facilities</p>
+        </div>
+        <div id="assetFilters" class="filter-row" role="group" aria-label="Filter map assets"></div>
+      </div>
+
+      <div class="map-layout">
+        <div class="map-glass">
+          <svg id="villageMapSvg" viewBox="0 0 800 460" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Pipri Gram Panchayat Village Infrastructure Map">
+            <defs>
+              <linearGradient id="landGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#e7f0ea" />
+                <stop offset="100%" stop-color="#dfeaf5" />
+              </linearGradient>
+            </defs>
+            <rect width="800" height="460" fill="url(#landGrad)" />
+            <path d="M 0 360 Q 240 310 460 370 T 800 330 L 800 400 Q 460 430 240 370 T 0 410 Z" fill="#bae6fd" opacity="0.75" />
+            <path d="M 60 220 L 740 220" stroke="#ffffff" stroke-width="14" stroke-linecap="round" />
+            <path d="M 60 220 L 740 220" stroke="#94a3b8" stroke-width="2" stroke-dasharray="8 8" />
+            <path d="M 380 40 L 380 420" stroke="#ffffff" stroke-width="12" stroke-linecap="round" />
+            <text x="140" y="95" fill="#64748b" font-size="14" font-weight="600">WARD 1–2</text>
+            <text x="560" y="95" fill="#64748b" font-size="14" font-weight="600">WARD 3–4</text>
+            <text x="140" y="300" fill="#64748b" font-size="14" font-weight="600">WARD 5–6</text>
+            <text x="560" y="300" fill="#64748b" font-size="14" font-weight="600">WARD 7–8</text>
+            <g id="mapPinsLayer"></g>
+          </svg>
+        </div>
+        <div id="assetCardsList" class="asset-list"></div>
+      </div>
+    </section>
+
+    <!-- SECTION 6: SARPANCH ADMIN DASHBOARD (Authenticated RBAC) -->
+    <section id="section-admin" class="view-section" aria-labelledby="admin-heading">
+      <div class="section-header">
+        <div>
+          <h2 id="admin-heading" class="section-title" data-i18n="adminTitle">Sarpanch Administrative Dashboard</h2>
+          <p class="section-subtitle" data-i18n="adminSub">Manage open citizen grievances, update project milestones, and publish village notices</p>
+        </div>
+        <button type="button" id="adminLogoutBtn" class="btn-glass" data-i18n="adminLogoutBtn">Sign Out</button>
+      </div>
+
+      <!-- Open Grievances Grouped by Status with One-Tap Actions -->
+      <div class="admin-block">
+        <h3 class="section-heading-sm" data-i18n="adminOpenTicketsTitle">Open Grievances Queue (Grouped by Status)</h3>
+        <div id="adminTicketsContainer" class="cards-stack"></div>
+      </div>
+
+      <!-- Independent Project Progress & Spend Updater -->
+      <div class="admin-block">
+        <h3 class="section-heading-sm" data-i18n="adminProjectsTitle">Update Project Progress &amp; Expenditure</h3>
+        <div id="adminProjectsContainer" class="projects-grid"></div>
+      </div>
+
+      <!-- Immutable Governance Audit Trail -->
+      <div class="admin-block">
+        <h3 class="section-heading-sm" data-i18n="adminAuditTitle">Recent Governance Audit Trail</h3>
+        <div id="adminAuditContainer" class="audit-list"></div>
+      </div>
+
+      <!-- Official Notice Broadcaster Form -->
+      <div class="admin-block form-glass">
+        <h3 class="section-heading-sm" data-i18n="adminPostNoticeTitle">Publish Official Village Notice</h3>
+        <form id="adminNoticeForm" class="grievance-form-grid" novalidate>
+          <div class="field-group">
+            <label for="nCategory" data-i18n="adminNoticeCatLabel">Notice Category</label>
+            <select id="nCategory" class="glass-input" required></select>
+          </div>
+          <div class="field-group">
+            <label for="nTitleEn" data-i18n="adminNoticeTitleEnLabel">Notice Title (English)</label>
+            <input type="text" id="nTitleEn" class="glass-input" maxlength="160" required />
+          </div>
+          <div class="field-group field-full">
+            <label for="nTitleHi" data-i18n="adminNoticeTitleHiLabel">Notice Title (Hindi)</label>
+            <input type="text" id="nTitleHi" class="glass-input" maxlength="160" />
+          </div>
+          <div class="field-group field-full">
+            <label for="nBodyEn" data-i18n="adminNoticeBodyEnLabel">Notice Details (English)</label>
+            <textarea id="nBodyEn" class="glass-input" rows="2" maxlength="700" required></textarea>
+          </div>
+          <div class="field-group field-full">
+            <label for="nBodyHi" data-i18n="adminNoticeBodyHiLabel">Notice Details &amp; Spoken Script (Hindi)</label>
+            <textarea id="nBodyHi" class="glass-input" rows="2" maxlength="700"></textarea>
+          </div>
+          <div class="field-full">
+            <button type="submit" class="btn-primary" data-i18n="adminPublishNoticeBtn">Publish Notice</button>
+          </div>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <!-- Mobile Bottom Navigation Bar -->
+  <nav class="mobile-bottom-nav" aria-label="Mobile Navigation">
+    <button type="button" class="mob-nav-btn active" data-tab="overview">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" /></svg>
+      <span data-i18n="navOverview">Overview</span>
+    </button>
+    <button type="button" class="mob-nav-btn" data-tab="notices">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" /><path d="M13.73 21a2 2 0 0 1-3.46 0" /></svg>
+      <span data-i18n="navNotices">Notices</span>
+    </button>
+    <button type="button" class="mob-nav-btn" data-tab="budget">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23" /><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" /></svg>
+      <span data-i18n="navBudget">Budget</span>
+    </button>
+    <button type="button" class="mob-nav-btn" data-tab="grievances">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4" /><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" /></svg>
+      <span data-i18n="navGrievances">Grievances</span>
+    </button>
+    <button type="button" class="mob-nav-btn" data-tab="assets">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" /><circle cx="12" cy="10" r="3" /></svg>
+      <span data-i18n="navAssets">Map</span>
+    </button>
+  </nav>
+
+  <!-- Photo Evidence Modal -->
+  <div id="evidenceModal" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal-glass">
+      <div class="modal-header">
+        <h3 id="modalTitle" class="modal-title"></h3>
+        <button type="button" id="closeModalBtn" class="icon-close-btn" aria-label="Close preview">✕</button>
+      </div>
+      <div id="modalVisual" class="modal-visual"></div>
+      <p id="modalCaption" class="modal-caption"></p>
+    </div>
+  </div>
+
+  <!-- Sarpanch Admin Login Modal -->
+  <div id="loginModal" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="loginModalTitle">
+    <div class="modal-glass">
+      <div class="modal-header">
+        <h3 id="loginModalTitle" class="modal-title" data-i18n="loginModalTitle">Sarpanch Admin Login</h3>
+        <button type="button" id="closeLoginModalBtn" class="icon-close-btn" aria-label="Close login">✕</button>
+      </div>
+      <p class="modal-caption" data-i18n="loginModalDesc">Sign in to assign ward members, update resolution notes, and audit project budgets.</p>
+      <form id="loginForm" class="modal-form" novalidate>
+        <div class="field-group">
+          <label for="loginUsername" data-i18n="loginUsernameLabel">Admin Username</label>
+          <input type="text" id="loginUsername" class="glass-input" autocomplete="username" required />
+        </div>
+        <div class="field-group">
+          <label for="loginPassword" data-i18n="loginPasswordLabel">Admin Password</label>
+          <input type="password" id="loginPassword" class="glass-input" autocomplete="current-password" required />
+        </div>
+        <div id="loginError" class="form-error hidden" role="alert"></div>
+        <div class="modal-actions">
+          <button type="submit" class="btn-primary" data-i18n="loginSubmitBtn">Sign In as Sarpanch</button>
+          <button type="button" id="loginDemoFillBtn" class="btn-glass btn-sm" data-i18n="loginDemoFillBtn">Auto-Fill Demo Credentials</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Grievance Success Token Modal -->
+  <div id="successModal" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="successModalTitle">
+    <div class="modal-glass">
+      <div class="modal-header">
+        <h3 id="successModalTitle" class="modal-title" data-i18n="successModalTitle">Complaint Registered Successfully</h3>
+        <button type="button" id="closeSuccessModalBtn" class="icon-close-btn" aria-label="Close confirmation">✕</button>
+      </div>
+      <p class="modal-caption" data-i18n="successTokenLabel">Your Unique Tracking Token</p>
+      <div id="successTokenValue" class="success-token-display">GP-1049</div>
+      <div class="modal-actions">
+        <button type="button" id="copyTokenBtn" class="btn-primary" data-i18n="copyTokenBtn">Copy Token</button>
+        <a id="shareWhatsappBtn" class="btn-glass" target="_blank" rel="noopener noreferrer" data-i18n="shareWhatsappBtn">Share on WhatsApp</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Accessible Toast Notification -->
+  <div id="toastBanner" class="toast-glass hidden" role="status" aria-live="polite"></div>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <span data-i18n="footerLeft">GramaGlow • Digital Gram Panchayat Governance Portal — Pipri</span>
+      <div class="export-row">
+        <a href="/api/docs" target="_blank" rel="noopener noreferrer" class="meta-chip" data-i18n="apiDocsLink">API Docs (Swagger)</a>
+        <span id="connectionStatusBadge" class="conn-badge" data-i18n="connectionLive">SQLite Server Connected (Live WAL)</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/i18n.js"></script>
+  <script src="js/logic.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

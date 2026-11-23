@@ -1,0 +1,31 @@
+name: GramaGlow CI Quality Gate
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+jobs:
+  test-and-verify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run Unit, i18n Parity & SQLite API Integration Tests
+        env:
+          NODE_ENV: test
+          GRAMAGLOW_SECRET: ci-test-ephemeral-signing-secret-32bytes
+        run: npm test
+
+      - name: Build Docker Image (Verification)
+        run: docker build -t gramaglow-portal:ci .

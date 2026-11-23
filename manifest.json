@@ -1,0 +1,10 @@
+{
+  "name": "GramaGlow \u2014 Pipri Gram Panchayat",
+  "short_name": "GramaGlow",
+  "description": "Bilingual Digital Gram Panchayat Governance Portal for Pipri Village",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f2f5f9",
+  "theme_color": "#0066cc",
+  "lang": "en-IN"
+}

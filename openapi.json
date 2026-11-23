@@ -1,0 +1,465 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "GramaGlow Digital Gram Panchayat API",
+    "version": "4.0.0",
+    "description": "RESTful 3-tier API for Pipri Gram Panchayat governance: bilingual village notices, dual-bar budget auditing, 48-hour SLA grievance tracking with escalation, Gram Sabha voting, CSV transparency exports, and Sarpanch RBAC admin actions."
+  },
+  "servers": [
+    {
+      "url": "/api",
+      "description": "Local Express Server"
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "BearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "HMAC-SHA256"
+      }
+    },
+    "schemas": {
+      "GrievanceInput": {
+        "type": "object",
+        "required": [
+          "category",
+          "ward",
+          "citizenName",
+          "landmark",
+          "title",
+          "description"
+        ],
+        "properties": {
+          "category": {
+            "type": "string",
+            "enum": [
+              "Streetlights",
+              "Drinking Water",
+              "Sanitation",
+              "Roads"
+            ]
+          },
+          "ward": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 8
+          },
+          "citizenName": {
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 80
+          },
+          "citizenPhone": {
+            "type": "string",
+            "pattern": "^[6-9]\\d{9}$"
+          },
+          "landmark": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 140
+          },
+          "title": {
+            "type": "string",
+            "minLength": 5,
+            "maxLength": 140
+          },
+          "description": {
+            "type": "string",
+            "minLength": 8,
+            "maxLength": 600
+          },
+          "photoDataUrl": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "ProjectUpdate": {
+        "type": "object",
+        "properties": {
+          "workPct": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 100
+          },
+          "spent": {
+            "type": "integer",
+            "minimum": 0
+          }
+        }
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string"
+          },
+          "details": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  },
+  "paths": {
+    "/health": {
+      "get": {
+        "tags": [
+          "System"
+        ],
+        "summary": "Service health check",
+        "responses": {
+          "200": {
+            "description": "Service is healthy"
+          }
+        }
+      }
+    },
+    "/metrics": {
+      "get": {
+        "tags": [
+          "System"
+        ],
+        "summary": "Runtime observability metrics and SQLite table counts",
+        "responses": {
+          "200": {
+            "description": "Operational metrics"
+          }
+        }
+      }
+    },
+    "/bootstrap": {
+      "get": {
+        "tags": [
+          "Governance"
+        ],
+        "summary": "Fetch full Pipri Gram Panchayat dataset with budget audits and SLA escalation tiers",
+        "responses": {
+          "200": {
+            "description": "Full governance payload"
+          }
+        }
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Authenticate Sarpanch Admin and issue signed HMAC-SHA256 Bearer token",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "username",
+                  "password"
+                ],
+                "properties": {
+                  "username": {
+                    "type": "string",
+                    "example": "sarpanch"
+                  },
+                  "password": {
+                    "type": "string",
+                    "example": "sarpanch2026"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Signed token issued"
+          },
+          "401": {
+            "description": "Invalid credentials"
+          }
+        }
+      }
+    },
+    "/grievances": {
+      "get": {
+        "tags": [
+          "Grievances"
+        ],
+        "summary": "List citizen grievances sorted by 48-hour SLA priority",
+        "parameters": [
+          {
+            "name": "status",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Sorted grievances list"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Grievances"
+        ],
+        "summary": "Lodge a new citizen grievance and generate sequential token",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GrievanceInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Grievance registered"
+          },
+          "400": {
+            "description": "Validation failed"
+          }
+        }
+      }
+    },
+    "/grievances/{token}": {
+      "patch": {
+        "tags": [
+          "Grievances"
+        ],
+        "summary": "Update grievance status, ward assignment, or resolution notes (Sarpanch Admin)",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "token",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Grievance updated"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Token not found"
+          }
+        }
+      }
+    },
+    "/projects": {
+      "get": {
+        "tags": [
+          "Budget"
+        ],
+        "summary": "List development projects with dual-bar physical vs financial audit flags",
+        "responses": {
+          "200": {
+            "description": "Projects with audit metadata"
+          }
+        }
+      }
+    },
+    "/projects/{id}": {
+      "patch": {
+        "tags": [
+          "Budget"
+        ],
+        "summary": "Independently update project physical progress and funds spent (Sarpanch Admin)",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProjectUpdate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Project updated"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Project not found"
+          }
+        }
+      }
+    },
+    "/notices": {
+      "get": {
+        "tags": [
+          "Notices"
+        ],
+        "summary": "List official village notices with Hindi spoken transcripts",
+        "responses": {
+          "200": {
+            "description": "Notices list"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Notices"
+        ],
+        "summary": "Publish a new bilingual village notice (Sarpanch Admin)",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Notice published"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/agenda": {
+      "get": {
+        "tags": [
+          "Gram Sabha"
+        ],
+        "summary": "List Gram Sabha agenda items sorted by votes",
+        "responses": {
+          "200": {
+            "description": "Agenda items"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Gram Sabha"
+        ],
+        "summary": "Propose a new Gram Sabha agenda item",
+        "responses": {
+          "201": {
+            "description": "Agenda added"
+          }
+        }
+      }
+    },
+    "/agenda/{id}/vote": {
+      "post": {
+        "tags": [
+          "Gram Sabha"
+        ],
+        "summary": "Upvote a community priority for Gram Sabha",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Vote recorded"
+          }
+        }
+      }
+    },
+    "/audit-logs": {
+      "get": {
+        "tags": [
+          "Audit"
+        ],
+        "summary": "Retrieve immutable governance audit trail (Sarpanch Admin)",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Audit trail entries"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/export/budget.csv": {
+      "get": {
+        "tags": [
+          "Transparency Export"
+        ],
+        "summary": "Download RFC-4180 CSV public audit report of all village development budgets",
+        "responses": {
+          "200": {
+            "description": "CSV file download"
+          }
+        }
+      }
+    },
+    "/export/grievances.csv": {
+      "get": {
+        "tags": [
+          "Transparency Export"
+        ],
+        "summary": "Download RFC-4180 CSV transparency report of citizen grievances and SLA status",
+        "responses": {
+          "200": {
+            "description": "CSV file download"
+          }
+        }
+      }
+    },
+    "/events": {
+      "get": {
+        "tags": [
+          "Real-Time SSE"
+        ],
+        "summary": "Subscribe to real-time Server-Sent Events stream for live grievance, budget, and notice updates",
+        "responses": {
+          "200": {
+            "description": "text/event-stream opened"
+          }
+        }
+      }
+    }
+  }
+}

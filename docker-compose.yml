@@ -1,0 +1,18 @@
+services:
+  gramaglow:
+    build: .
+    container_name: gramaglow-portal
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+      - LOG_LEVEL=info
+      - DATABASE_PATH=/app/server/data/gramaglow.sqlite
+      - GRAMAGLOW_SECRET=${GRAMAGLOW_SECRET:-replace-with-32-byte-secret-in-env}
+    volumes:
+      - gramaglow_sqlite_data:/app/server/data
+    restart: unless-stopped
+
+volumes:
+  gramaglow_sqlite_data:
